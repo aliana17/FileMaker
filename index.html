@@ -9,13 +9,15 @@
 	    }
 	</style>
     </head>
-    <body>
+  <body style="background-color:white; border-top:15px solid blue; border-bottom: 15px solid blue;">
         <form action="/cgi-bin/getData.py" method="post">
 	 <div class="lispace">
             Enter the type of Application: <input type="text" name="app_type"><br>
             Specify the port: <input type="text" name="port"><br>
             Environmental Variables: 
-            Key <input type="text" name="env"> value  <input type="text" name="env"> <input type="submit" value="Add more"> <br>
+ 	    <div id="env0">
+       Key <input type="text" name="env"> value  <input type="text" name="env">            </div>
+<button type="button" id="parent_var" onclick="duplicateenv()">Add More</button> <br>
 	    Commands to install Packages: <textarea rows="4" cols="50" name="run"></textarea><br>
             Command always to be executed: <input type="text" name="entrypoint"><br>
 	     Default command( Runs when server start ): <input type="text" name="cmd"><br>
@@ -23,5 +25,24 @@
 	<input type="submit" value="Go" />
        	  </div>
 	 </form> 
+	
+	 <script>
+           function addenv(){
+             var input_env = document.createElement("input");
+             input_env.setAttribute('type','text');
+             var parent = document.getElementById("parent_var");
+             parent.parentNode.insertBefore(input_env,parent.nextSibling);
+           }
+	   
+	   var i = 0;
+           function duplicateenv() {
+	     var original = document.getElementById('env'+i);
+	     var clone = original.cloneNode(true);
+	     clone.id = 'env'+ ++i;
+	     var parent = document.getElementById("parent_var");
+	     parent.parentNode.insertBefore(clone,parent.nextSibling);
+	     
+	   }
+        </script>
     </body>
 </html>

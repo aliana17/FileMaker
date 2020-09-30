@@ -3,6 +3,7 @@
 # Import modules for CGI handling 
 import cgi, cgitb 
 import os,sys
+import json 
 
 f = open(os.path.join(sys.path[0], "Dockerfile"), "w+")
 
@@ -38,7 +39,10 @@ if(cmd!=None):
 if(run!=None):
   runArray = run.split("\n")
   for i in runArray:
-    f.write("RUN %s \n" %(i))
-f.write("Env %s" %(env))
+    f.write("RUN %s \n" %(json.dumps(list(i))))
+if(env!=None):
+    envIterator = iter(env)
+    for x in envIterator:
+      f.write("Env %s %s \n" %(x, next(envIterator) ))
 f.close()
 
